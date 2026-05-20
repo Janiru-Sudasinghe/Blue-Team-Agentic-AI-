@@ -302,35 +302,30 @@ LOG_LEVEL=INFO
 
 ```
 2026-05-21 00:16:20  INFO      hermes — ══════════  HERMES AUTONOMOUS SOC AGENT — START  ══════════
-2026-05-21 00:16:20  INFO      hermes — Stage 1 — Fetching threat intel from MISP (pool=50)
-2026-05-21 00:16:20  INFO      hermes — Selected event: 'OSINT - Shifting Tactics: Tracking changes in years-long espionage campaign against Tibetans'  |  Total pool: 50  |  Attributes: 34
-2026-05-21 00:16:20  DEBUG     hermes — Intel summary:
-Threat Event: OSINT - Shifting Tactics: Tracking changes in years-long espionage campaign against Tibetans
-Indicators of Compromise:
-  - [link]  https://citizenlab.org/2016/03/shifting-tactics/
-  - [comment]  This report describes the latest iteration in a long-running espionage campaign against the Tibetan community.  We detail how the attackers continuously adapt their campaigns to their targets, shifting tactics from document-based malware to conventional phishing that draws on â€œinsideâ€ knowledge of community activities. This adaptation appears to track changes in security behaviors within the Tibetan community, which has been promoting a move from sharing attachments via e-mail to using cloud-based file sharing alternatives such as Google Drive.
+2026-05-21 00:16:20  INFO      hermes — Stage 1 — Fetching detection data from Chronicle SIEM (log_type=FORTINET_FORTIANALYZER)
+2026-05-21 00:16:20  INFO      hermes — Selected rule match: 'fortinet_configuration_change'  |  Severity: MEDIUM  |  Priority: Medium  |  Phase: Testing
+2026-05-21 00:16:20  DEBUG     hermes — Detection summary:
+Rule: fortinet_configuration_change
+Author: Hermes Autonomous SOC  |  Version: 1.0  |  Tags: T1543
+Description: Detects configuration changes on a FortiGate device such as firewall policy edits.
+Match Window: 30 minutes
+Event Type: STATUS_UPDATE
+Log Source: FORTINET_FORTIANALYZER
 
-We connect the attack groups infrastructure and techniques to a group previously identified by Palo Alto Networks, which they named Scarlet Mimic. We provide further context on Scarlet Mimicâ€™s targeting and tactics, and the intended victims of their attack campaigns.  In addition, while Scarlet Mimic may be conducting malware attacks using other infrastructure, we analyze how the attackers re-purposed a cluster of their malware Command and Control (C2) infrastructure to mount the recent phishing campaign.
+Matched Events:
+  - [event_type]   STATUS_UPDATE
+  - [description]  Configuration changed
+  - [description]  Object attribute configured
+  - [user]         admin@corp.local
+  - [hostname]     FGT-CORE-01.internal.corp
 
-This move is only the latest development in the ongoing cat and mouse game between attack groups like Scarlet Mimic and the Tibetan community. The speed and ease with which attackers continue to adapt highlights the challenges faced by Tibetans who are trying to remain safe online.
-  - [hostname]  filegoogle.firewall-gateway.com
-  - [hostname]  accountgoogle.firewall-gateway.com
-  - [hostname]  detail43.myfirewall.org
-  - [url]  http://filegoogle.firewall-gateway.com/servicelogin
-  - [url]  http://accountgoogle.firewall-gateway.com/serviclogin
-  - [url]  http://accountgoogle.firewall-gateway.com/servicclogin
-  - [hostname]  sys.firewall-gateway.net
-  - [filename|md5]  uroyh.exe|ea45265fe98b25e719d5a9cc3b412d66
-  - [filename|md5]  uroyh-unpacked.exe|5c030802ad411fea059cc9cc4c118125
-  - [filename|md5]  Reappraisal_of_India_Tibet_Policy.doc|7735e571d0450e2a31e97e4f8e0f66fa
-  - [filename|md5]  Genuine autonomy or complete independance.doc|7735e571d0450e2a31e97e4f8e0f66fa
-  - [filename|md5]  Application for Mentee.doc|7735e571d0450e2a31e97e4f8e0f66fa
-  - [filename|md5]  iph.bat|d2e9412428c3bcf3ec98dba8a78adb7b
-  - [filename|md5]  cghnt.exe|1bf438b5744db73eea58379a3b9f30e5
-  - [filename|md5]  20140317144336097.DOC|3b869c8e23d66ad0527882fc79ff7237
-  - [hostname]  news.firewall-gateway.com
-  - [md5]  fef27f432e0ae8218143bc410fda340e
-  - [sha256]  df9872d1dc1dbb101bf83c7e7d689d2d6df09966481a365f92cd451ef55f047d
+Outcome Values:
+  - [principal_user]      ["admin@corp.local"]
+  - [principal_hostname]  ["FGT-CORE-01.internal.corp"]
+  - [change_count]        7
+
+False Positive Likelihood: Medium
+MITRE ATT&CK Reference: T1543 — Create or Modify System Process
 
 ============================================================
 rule fortinet_configuration_change {
@@ -338,7 +333,7 @@ rule fortinet_configuration_change {
     author = "Hermes Autonomous SOC"
     version = "1.0"
     description = "Detects configuration changes on a FortiGate device such as firewall policy edits."
-    created = "2026-05-17"
+    created = "2026-05-21"
     severity = "MEDIUM"
     priority = "Medium"
     false_positives = "Medium"
