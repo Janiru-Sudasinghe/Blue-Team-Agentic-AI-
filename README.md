@@ -58,7 +58,7 @@ The following diagram illustrates the logical traffic flow and segmentation.
 
 <p align="center">
   <br>
-  <img src="./Diagram/diagram.jpeg" width="600" alt="Network Topology Diagram">
+  <img src="./assets/architecture-diagram.jpeg" width="600" alt="Network Topology Diagram">
 </p>
 ---
 
@@ -342,7 +342,7 @@ This move is only the latest development in the ongoing cat and mouse game betwe
   - [hostname]  news.firewall-gateway.com
   - [md5]  fef27f432e0ae8218143bc410fda340e
   - [sha256]  df9872d1dc1dbb101bf83c7e7d689d2d6df09966481a365f92cd451ef55f047d
-  
+
 ============================================================
 rule Firewall_Gateway_C2 {
   meta:
