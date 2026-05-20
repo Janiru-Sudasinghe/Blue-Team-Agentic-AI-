@@ -109,7 +109,7 @@ Host PC (Windows)
 
 <p align="center">
   <br>
-  <img src="./assets/MISP dashboard.png" width="600" alt="Network Topology Diagram">
+  <img src="./assets/MISP dashboard.png" width="1000" alt="Network Topology Diagram">
 </p>
 ---
 
