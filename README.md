@@ -59,7 +59,7 @@ The following diagram illustrates the logical traffic flow and segmentation.
 
 <p align="center">
   <br>
-  <img src="./docs/diagram.jpeg" width="600" alt="Network Topology Diagram">
+  <img src="./Diagram/diagram.jpeg" width="600" alt="Network Topology Diagram">
 </p>
 ---
 
