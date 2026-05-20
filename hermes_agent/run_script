@@ -7,4 +7,18 @@ export SECOPS_CRED_PATH="/root/hermes-agent/secops-creds.json"
 DRY_RUN=true python hermes.py
 
 # Full pipeline:
+source hermes-env/bin/activate
+
 python hermes.py
+/root/hermes-agent/hermes-env/bin/python3 /root/hermes-agent/hermes.py
+
+# Load and run in one shot
+set -a && source .env && set +a && DRY_RUN=true python hermes.py
+
+
+cat > /root/hermes-agent/.env << 'EOF'
+GROQ_API_KEY="gsk_NO3l5WIw4i9hfOxJzMNgWGdyb3FY3......."
+MISP_URL="https://192.168.1.182"
+MISP_KEY="v9lr........"
+SECOPS_CRED_PATH="/root/hermes-agent/secops-creds.json"
+EOF

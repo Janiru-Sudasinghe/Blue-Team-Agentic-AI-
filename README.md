@@ -58,8 +58,9 @@ The following diagram illustrates the logical traffic flow and segmentation.
 
 <p align="center">
   <br>
-  <img src="./assets/architecture-diagram.jpeg" width="600" alt="Network Topology Diagram">
+  <img src="./Diagram/diagram.jpeg" width="600" alt="Network Topology Diagram">
 </p>
+---
 
 ## ⚙️ How It Works
 
@@ -140,6 +141,7 @@ proxmox-agentic-ai-security/
 ├── 📄 README.md                        # This file
 │
 ├── 🤖 hermes_agent/
+│   ├── run_script
 │   └── hermes.py                       # Main Hermes Agent script (core)
 │
 ├── 🖥️ infrastructure/
@@ -150,6 +152,7 @@ proxmox-agentic-ai-security/
 │       └── sysmon-config.xml           # Sysmon configuration for Host PC
 │
 └── 📊 assets/
+    ├── MISP dashboard.png
     └── architecture-diagram.jpeg        # Project architecture diagram
 ```
 
@@ -182,8 +185,6 @@ bash INSTALL.sh
 # Enable: CIRCL, Botvrij, ESET, Abuse.ch, etc.
 ```
 
-> 📄 Full guide: [`infrastructure/misp/misp-feeds-config.md`](infrastructure/misp/misp-feeds-config.md)
-
 ---
 
 ### 2. BindPlane Log Aggregator Setup (Linux VM)
@@ -205,47 +206,6 @@ Configure the Windows Host PC with **Sysmon** using the provided config:
 # On the Windows Host PC (run as Administrator)
 sysmon64.exe -accepteula -i infrastructure\windows\sysmon-config.xml
 ```
-
----
-
-### 3. Hermes Agent Setup (Proxmox VM)
-
-```bash
-# Clone the repository
-git clone https://github.com/<your-username>/proxmox-agentic-ai-security.git
-cd proxmox-agentic-ai-security
-
-# Create and activate a virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Configure environment variables
-cp .env.example .env
-nano .env   # Fill in your API keys and endpoints
-
-# Run Hermes Agent
-python hermes_agent/hermes.py
-```
-
----
-
-### 4. Google SecOps Integration
-
-1. In your **Google SecOps** console, navigate to **Settings > API Access**
-2. Create a **Service Account** with the following roles:
-   - `Chronicle API Editor`
-   - `Chronicle Rule Writer`
-3. Download the JSON key and reference it in your `.env` file
-4. Test connectivity:
-
-```bash
-python hermes_agent/secops_client.py --test-connection
-```
-
-> 📄 Full guide: [`docs/secops-api-setup.md`](docs/secops-api-setup.md)
 
 ---
 
@@ -345,6 +305,89 @@ LOG_LEVEL=INFO
 
 ---
 
+### Sample Output
+
+```bash
+/root/hermes-agent/hermes-env/bin/python3 /root/hermes-agent/hermes.py
+```
+
+```
+2026-05-21 00:16:20  INFO      hermes — ══════════  HERMES AUTONOMOUS SOC AGENT — START  ══════════
+2026-05-21 00:16:20  INFO      hermes — Stage 1 — Fetching threat intel from MISP (pool=50)
+2026-05-21 00:16:20  INFO      hermes — Selected event: 'OSINT - Shifting Tactics: Tracking changes in years-long espionage campaign against Tibetans'  |  Total pool: 50  |  Attributes: 34
+2026-05-21 00:16:20  DEBUG     hermes — Intel summary:
+Threat Event: OSINT - Shifting Tactics: Tracking changes in years-long espionage campaign against Tibetans
+Indicators of Compromise:
+  - [link]  https://citizenlab.org/2016/03/shifting-tactics/
+  - [comment]  This report describes the latest iteration in a long-running espionage campaign against the Tibetan community.  We detail how the attackers continuously adapt their campaigns to their targets, shifting tactics from document-based malware to conventional phishing that draws on â€œinsideâ€ knowledge of community activities. This adaptation appears to track changes in security behaviors within the Tibetan community, which has been promoting a move from sharing attachments via e-mail to using cloud-based file sharing alternatives such as Google Drive.
+
+We connect the attack groupâ€™s infrastructure and techniques to a group previously identified by Palo Alto Networks, which they named Scarlet Mimic. We provide further context on Scarlet Mimicâ€™s targeting and tactics, and the intended victims of their attack campaigns.  In addition, while Scarlet Mimic may be conducting malware attacks using other infrastructure, we analyze how the attackers re-purposed a cluster of their malware Command and Control (C2) infrastructure to mount the recent phishing campaign.
+
+This move is only the latest development in the ongoing cat and mouse game between attack groups like Scarlet Mimic and the Tibetan community. The speed and ease with which attackers continue to adapt highlights the challenges faced by Tibetans who are trying to remain safe online.
+  - [hostname]  filegoogle.firewall-gateway.com
+  - [hostname]  accountgoogle.firewall-gateway.com
+  - [hostname]  detail43.myfirewall.org
+  - [url]  http://filegoogle.firewall-gateway.com/servicelogin
+  - [url]  http://accountgoogle.firewall-gateway.com/serviclogin
+  - [url]  http://accountgoogle.firewall-gateway.com/servicclogin
+  - [hostname]  sys.firewall-gateway.net
+  - [filename|md5]  uroyh.exe|ea45265fe98b25e719d5a9cc3b412d66
+  - [filename|md5]  uroyh-unpacked.exe|5c030802ad411fea059cc9cc4c118125
+  - [filename|md5]  Reappraisal_of_India_Tibet_Policy.doc|7735e571d0450e2a31e97e4f8e0f66fa
+  - [filename|md5]  Genuine autonomy or complete independance.doc|7735e571d0450e2a31e97e4f8e0f66fa
+  - [filename|md5]  Application for Mentee.doc|7735e571d0450e2a31e97e4f8e0f66fa
+  - [filename|md5]  iph.bat|d2e9412428c3bcf3ec98dba8a78adb7b
+  - [filename|md5]  cghnt.exe|1bf438b5744db73eea58379a3b9f30e5
+  - [filename|md5]  20140317144336097.DOC|3b869c8e23d66ad0527882fc79ff7237
+  - [hostname]  news.firewall-gateway.com
+  - [md5]  fef27f432e0ae8218143bc410fda340e
+  - [sha256]  df9872d1dc1dbb101bf83c7e7d689d2d6df09966481a365f92cd451ef55f047d
+  
+============================================================
+rule Firewall_Gateway_C2 {
+  meta:
+    description = "Firewall Gateway C2 campaign"
+    author      = "Hermes Autonomous SOC"
+    severity    = "HIGH"
+  events:
+    $e.metadata.event_type = "NETWORK_HTTP" or
+    $e.metadata.event_type = "NETWORK_DNS" or
+    $e.metadata.event_type = "PROCESS_CREATED" or
+    $e.metadata.event_type = "FILE_CREATED"
+    (
+      $e.target.hostname = "filegoogle.firewall-gateway.com" or
+      $e.target.hostname = "accountgoogle.firewall-gateway.com" or
+      $e.target.hostname = "detail43.myfirewall.org" or
+      $e.target.hostname = "sys.firewall-gateway.net" or
+      $e.target.hostname = "news.firewall-gateway.com" or
+      $e.target.url      = "http://filegoogle.firewall-gateway.com/servicelogin" or
+      $e.target.url      = "http://accountgoogle.firewall-gateway.com/serviclogin" or
+      $e.target.url      = "http://accountgoogle.firewall-gateway.com/servicclogin" or
+      $e.target.file_name = "uroyh.exe" or
+      $e.target.file_name = "uroyh-unpacked.exe" or
+      $e.target.file_name = "Reappraisal_of_India_Tibet_Policy.doc" or
+      $e.target.file_name = "Genuine autonomy or complete independance.doc" or
+      $e.target.file_name = "Application for Mentee.doc" or
+      $e.target.file_name = "iph.bat" or
+      $e.target.file_name = "cghnt.exe" or
+      $e.target.file_name = "20140317144336097.DOC" or
+      $e.target.file_hash = "ea45265fe98b25e719d5a9cc3b412d66" or
+      $e.target.file_hash = "5c030802ad411fea059cc9cc4c118125" or
+      $e.target.file_hash = "7735e571d0450e2a31e97e4f8e0f66fa" or
+      $e.target.file_hash = "d2e9412428c3bcf3ec98dba8a78adb7b" or
+      $e.target.file_hash = "1bf438b5744db73eea58379a3b9f30e5" or
+      $e.target.file_hash = "3b869c8e23d66ad0527882fc79ff7237" or
+      $e.target.file_hash = "fef27f432e0ae8218143bc410fda340e" or
+      $e.target.file_hash = "df9872d1dc1dbb101bf83c7e7d689d2d6df09966481a365f92cd451ef55f047d"
+    )
+  condition:
+    $e
+}
+============================================================
+```
+
+---
+
 ## 🗺️ Roadmap
 
 - [x] MISP threat intelligence ingestion
@@ -353,12 +396,6 @@ LOG_LEVEL=INFO
 - [x] Google SecOps validation loop with auto-correction
 - [x] Automated rule deployment to Google SecOps
 - [x] BindPlane log collection (Windows → SecOps)
-- [ ] Slack / Email alerting on rule deployment
-- [ ] Web dashboard for monitoring Hermes pipeline status
-- [ ] MISP event enrichment with VirusTotal / Shodan
-- [ ] Multi-tenant SecOps support
-- [ ] Dockerized deployment option
-- [ ] Unit test coverage > 80%
 
 ---
 
@@ -372,19 +409,11 @@ Contributions, issues, and feature requests are welcome!
 4. Push to the branch: `git push origin feature/your-feature`
 5. Open a Pull Request
 
-Please read [`docs/contributing.md`](docs/contributing.md) before submitting.
-
 ---
 
 ## ⚠️ Disclaimer
 
 This project is intended for **educational and authorized Blue Team lab use only**. All threat intelligence processing and rule deployment should only be performed on systems you own or have explicit written permission to test. The author is not responsible for any misuse of this project.
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ---
 
