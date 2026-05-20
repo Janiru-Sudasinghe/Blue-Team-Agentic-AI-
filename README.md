@@ -335,11 +335,10 @@ This move is only the latest development in the ongoing cat and mouse game betwe
 ============================================================
 rule fortinet_configuration_change {
   meta:
-    author = "soc@ncinga.net"
-    contributor = "gavin.jayasuriya@ncinga.net"
+    author = "Hermes Autonomous SOC"
     version = "1.0"
     description = "Detects configuration changes on a FortiGate device such as firewall policy edits."
-    created = "2025-11-13"
+    created = "2026-05-17"
     severity = "MEDIUM"
     priority = "Medium"
     false_positives = "Medium"
