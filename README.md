@@ -105,7 +105,7 @@ Host PC (Windows)
 
 ## 🏗️ MISP Dashboard
 
-# Threat Intelligence Management: MISP Integration 
+Threat Intelligence Management: MISP Integration 
 
 <p align="center">
   <br>
