@@ -1,10 +1,14 @@
+```
 export GROQ_API_KEY="gsk_..."
 export MISP_URL="https://192.168.1.182"
 export MISP_KEY="v9lrp7q..."
 export SECOPS_CRED_PATH="/root/hermes-agent/secops-creds.json"
-
+```
+```
 # Test without deploying:
 DRY_RUN=true python hermes.py
-
+```
+```
 # Full pipeline:
 python hermes.py
+```
