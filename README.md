@@ -333,7 +333,7 @@ Indicators of Compromise:
   - [link]  https://citizenlab.org/2016/03/shifting-tactics/
   - [comment]  This report describes the latest iteration in a long-running espionage campaign against the Tibetan community.  We detail how the attackers continuously adapt their campaigns to their targets, shifting tactics from document-based malware to conventional phishing that draws on â€œinsideâ€ knowledge of community activities. This adaptation appears to track changes in security behaviors within the Tibetan community, which has been promoting a move from sharing attachments via e-mail to using cloud-based file sharing alternatives such as Google Drive.
 
-We connect the attack groupâ€™s infrastructure and techniques to a group previously identified by Palo Alto Networks, which they named Scarlet Mimic. We provide further context on Scarlet Mimicâ€™s targeting and tactics, and the intended victims of their attack campaigns.  In addition, while Scarlet Mimic may be conducting malware attacks using other infrastructure, we analyze how the attackers re-purposed a cluster of their malware Command and Control (C2) infrastructure to mount the recent phishing campaign.
+We connect the attack groups infrastructure and techniques to a group previously identified by Palo Alto Networks, which they named Scarlet Mimic. We provide further context on Scarlet Mimicâ€™s targeting and tactics, and the intended victims of their attack campaigns.  In addition, while Scarlet Mimic may be conducting malware attacks using other infrastructure, we analyze how the attackers re-purposed a cluster of their malware Command and Control (C2) infrastructure to mount the recent phishing campaign.
 
 This move is only the latest development in the ongoing cat and mouse game between attack groups like Scarlet Mimic and the Tibetan community. The speed and ease with which attackers continue to adapt highlights the challenges faced by Tibetans who are trying to remain safe online.
   - [hostname]  filegoogle.firewall-gateway.com
@@ -356,42 +356,39 @@ This move is only the latest development in the ongoing cat and mouse game betwe
   - [sha256]  df9872d1dc1dbb101bf83c7e7d689d2d6df09966481a365f92cd451ef55f047d
 
 ============================================================
-rule Firewall_Gateway_C2 {
+rule fortinet_configuration_change {
   meta:
-    description = "Firewall Gateway C2 campaign"
-    author      = "Hermes Autonomous SOC"
-    severity    = "HIGH"
+    author = "soc@ncinga.net"
+    contributor = "gavin.jayasuriya@ncinga.net"
+    version = "1.0"
+    description = "Detects configuration changes on a FortiGate device such as firewall policy edits."
+    created = "2025-11-13"
+    severity = "MEDIUM"
+    priority = "Medium"
+    false_positives = "Medium"
+    tags = "T1543"
+    phase = "Testing"
+
   events:
-    $e.metadata.event_type = "NETWORK_HTTP" or
-    $e.metadata.event_type = "NETWORK_DNS" or
-    $e.metadata.event_type = "PROCESS_CREATED" or
-    $e.metadata.event_type = "FILE_CREATED"
+    $e.metadata.log_type = "FORTINET_FORTIANALYZER"
+    $e.metadata.event_type = "STATUS_UPDATE"
+
     (
-      $e.target.hostname = "filegoogle.firewall-gateway.com" or
-      $e.target.hostname = "accountgoogle.firewall-gateway.com" or
-      $e.target.hostname = "detail43.myfirewall.org" or
-      $e.target.hostname = "sys.firewall-gateway.net" or
-      $e.target.hostname = "news.firewall-gateway.com" or
-      $e.target.url      = "http://filegoogle.firewall-gateway.com/servicelogin" or
-      $e.target.url      = "http://accountgoogle.firewall-gateway.com/serviclogin" or
-      $e.target.url      = "http://accountgoogle.firewall-gateway.com/servicclogin" or
-      $e.target.file_name = "uroyh.exe" or
-      $e.target.file_name = "uroyh-unpacked.exe" or
-      $e.target.file_name = "Reappraisal_of_India_Tibet_Policy.doc" or
-      $e.target.file_name = "Genuine autonomy or complete independance.doc" or
-      $e.target.file_name = "Application for Mentee.doc" or
-      $e.target.file_name = "iph.bat" or
-      $e.target.file_name = "cghnt.exe" or
-      $e.target.file_name = "20140317144336097.DOC" or
-      $e.target.file_hash = "ea45265fe98b25e719d5a9cc3b412d66" or
-      $e.target.file_hash = "5c030802ad411fea059cc9cc4c118125" or
-      $e.target.file_hash = "7735e571d0450e2a31e97e4f8e0f66fa" or
-      $e.target.file_hash = "d2e9412428c3bcf3ec98dba8a78adb7b" or
-      $e.target.file_hash = "1bf438b5744db73eea58379a3b9f30e5" or
-      $e.target.file_hash = "3b869c8e23d66ad0527882fc79ff7237" or
-      $e.target.file_hash = "fef27f432e0ae8218143bc410fda340e" or
-      $e.target.file_hash = "df9872d1dc1dbb101bf83c7e7d689d2d6df09966481a365f92cd451ef55f047d"
+      $e.metadata.description = "Configuration changed" or
+      $e.metadata.description = "Object attribute configured"
     )
+
+    $e.principal.user.userid = $user
+    $e.principal.hostname = $hostname
+
+  match:
+    $user, $hostname over 30m
+
+  outcome:
+    $principal_user = array_distinct($user)
+    $principal_hostname = array_distinct($hostname)
+    $change_count = count($e.metadata.id)
+
   condition:
     $e
 }
