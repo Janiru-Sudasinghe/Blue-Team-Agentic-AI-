@@ -1,8 +1,6 @@
-# 🛡️ Proxmox VE — Agentic AI Security Architecture
+# 🛡️ Proxmox VE - Agentic AI Security Architecture
 
 <div align="center">
-
-![Project Banner](assets/architecture-diagram.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
@@ -11,7 +9,7 @@
 [![MISP](https://img.shields.io/badge/MISP-Threat%20Intelligence-red)](https://www.misp-project.org/)
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen)]()
 
-**A fully autonomous, self-hosted Blue Team lab that ingests live threat intelligence, generates validated YARA-L 2 detection rules using AI, and deploys them directly into Google SecOps — all without human intervention.**
+**A fully autonomous, self-hosted Blue Team lab that ingests live threat intelligence, generates validated YARA-L 2 detection rules using AI, and deploys them directly into Google SecOps - all without human intervention.**
 
 </div>
 
@@ -55,36 +53,14 @@ This project is a **self-hosted, agentic AI-powered security operations lab** bu
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture Diagram
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│              THREAT ANALYSIS & DETECTION LAYER               │
-│                                                             │
-│   INTERNET ──► MISP (Ubuntu VM) ──► HERMES AGENT (VM)      │
-│                Threat Intel Feed    │  Agentic AI (Python)  │
-│                                     │                        │
-│                                     ├──► GROK AI (Cloud)    │
-│                                     └──► OPENROUTER AI      │
-│                                                             │
-└────────────────────────┬────────────────────────────────────┘
-                         │ Analyzed Alerts + YARA-L 2 Rules
-                         ▼
-              ┌──────────────────────┐
-              │   GOOGLE SECOPS      │
-              │   (SIEM / SOAR)      │
-              └──────────┬───────────┘
-                         │ Normalized Logs
-┌────────────────────────┴────────────────────────────────────┐
-│                    LOG COLLECTION LAYER                      │
-│                                                             │
-│   HOST PC (Windows) ──► BINDPLANE (Linux VM) ──► SecOps     │
-│   Windows System Logs    Log Aggregator                     │
-└─────────────────────────────────────────────────────────────┘
-```
+The following diagram illustrates the logical traffic flow and segmentation.
 
-> 📌 See [`assets/architecture-diagram.png`](assets/architecture-diagram.png) for the full visual diagram.
-
+<p align="center">
+  <br>
+  <img src="./docs/diagram.jpeg" width="600" alt="Network Topology Diagram">
+</p>
 ---
 
 ## ⚙️ How It Works
