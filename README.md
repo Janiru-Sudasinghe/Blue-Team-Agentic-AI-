@@ -103,6 +103,18 @@ Host PC (Windows)
 
 ---
 
+## 🏗️ MISP Dashboard
+
+# Threat Intelligence Management: MISP Integration 
+
+<p align="center">
+  <br>
+  <img src="./assets/MISP dashboard.png" width="600" alt="Network Topology Diagram">
+</p>
+---
+
+---
+
 ## 🛠️ Tech Stack
 
 | Component | Technology | Role |
