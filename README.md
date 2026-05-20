@@ -2,7 +2,6 @@
 
 <div align="center">
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
 [![Proxmox VE](https://img.shields.io/badge/Proxmox-VE%208.x-E57000?logo=proxmox)](https://www.proxmox.com/)
 [![Google SecOps](https://img.shields.io/badge/Google-SecOps%20SIEM%2FSOAR-4285F4?logo=google)](https://cloud.google.com/security/products/security-operations)
@@ -140,58 +139,19 @@ All components run as **isolated Virtual Machines** inside a dedicated **Proxmox
 proxmox-agentic-ai-security/
 │
 ├── 📄 README.md                        # This file
-├── 📄 LICENSE
-├── 📄 .env.example                     # Environment variable template
-├── 📄 requirements.txt                 # Python dependencies
 │
 ├── 🤖 hermes_agent/
-│   ├── hermes.py                       # Main Hermes Agent script (core)
-│   ├── misp_client.py                  # MISP API integration module
-│   ├── ai_client.py                    # Grok AI / OpenRouter AI client
-│   ├── secops_client.py                # Google SecOps API client
-│   ├── rule_validator.py               # YARA-L 2 rule validation logic
-│   └── utils.py                        # Helper functions & logging
-│
-├── ⚙️ config/
-│   ├── config.yaml                     # Main configuration file
-│   ├── misp_feeds.yaml                 # MISP feed sources list
-│   └── logging_config.yaml             # Logging configuration
-│
-├── 📜 rules/
-│   ├── generated/                      # AI-generated YARA-L 2 rules (auto-populated)
-│   ├── deployed/                       # Successfully deployed rules
-│   └── failed/                         # Rules that failed validation (for review)
-│
-├── 🪵 logs/
-│   └── hermes_agent.log                # Runtime logs (gitignored)
+│   └── hermes.py                       # Main Hermes Agent script (core)
 │
 ├── 🖥️ infrastructure/
-│   ├── proxmox/
-│   │   └── vm-setup-notes.md           # Proxmox VM configuration notes
-│   ├── misp/
-│   │   ├── misp-install.sh             # MISP automated install script
-│   │   └── misp-feeds-config.md        # Feed configuration guide
 │   ├── bindplane/
 │   │   ├── bindplane-install.sh        # BindPlane install script
 │   │   └── bindplane-config.yaml       # BindPlane collector config
 │   └── windows/
 │       └── sysmon-config.xml           # Sysmon configuration for Host PC
 │
-├── 📊 assets/
-│   └── architecture-diagram.png        # Project architecture diagram
-│
-├── 📓 docs/
-│   ├── architecture.md                 # Detailed architecture documentation
-│   ├── hermes-agent-flow.md            # Hermes agent workflow documentation
-│   ├── yara-l2-examples.md             # Sample generated YARA-L 2 rules
-│   ├── secops-api-setup.md             # Google SecOps API configuration guide
-│   └── troubleshooting.md              # Common issues & fixes
-│
-└── 🧪 tests/
-    ├── test_misp_client.py
-    ├── test_ai_client.py
-    ├── test_secops_client.py
-    └── test_rule_validator.py
+└── 📊 assets/
+    └── architecture-diagram.jpeg        # Project architecture diagram
 ```
 
 ---
