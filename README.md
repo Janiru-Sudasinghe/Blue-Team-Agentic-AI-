@@ -14,29 +14,6 @@
 
 ---
 
-## 📖 Table of Contents
-
-- [Overview](#-overview)
-- [Architecture](#-architecture)
-- [How It Works](#-how-it-works)
-- [Tech Stack](#-tech-stack)
-- [Lab Environment](#-lab-environment)
-- [Project Structure](#-project-structure)
-- [Setup & Configuration](#-setup--configuration)
-  - [Prerequisites](#prerequisites)
-  - [MISP Setup (Ubuntu VM)](#1-misp-setup-ubuntu-vm)
-  - [BindPlane Setup (Linux VM)](#2-bindplane-log-aggregator-setup-linux-vm)
-  - [Hermes Agent Setup](#3-hermes-agent-setup-proxmox-vm)
-  - [Google SecOps Integration](#4-google-secops-integration)
-- [Hermes Agent — Core Script](#-hermes-agent--core-script)
-- [AI Rule Generation Pipeline](#-ai-rule-generation-pipeline)
-- [Environment Variables](#-environment-variables)
-- [Roadmap](#-roadmap)
-- [Contributing](#-contributing)
-- [License](#-license)
-
----
-
 ## 🔍 Overview
 
 This project is a **self-hosted, agentic AI-powered security operations lab** built entirely on a **Proxmox VE hypervisor**. It demonstrates a fully automated Blue Team workflow:
